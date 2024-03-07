@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.niq.java.dto.ProductMetdataRequest;
@@ -47,8 +46,7 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
         metaData.setProductId(productMetadata.getProductId());
         return productMetdataRepository.save(metaData);
     }
-    
-    @Cacheable(value = "products", key = "#shopperId")
+        
     public List<ProductResponse> getProductsByShopperId(String shopperId, String category, String brand, int limit) {
         List<Object[]> products = productRepository.getProductsWithFilters(shopperId, category, brand);
         if (products == null || products.size() == 0) {

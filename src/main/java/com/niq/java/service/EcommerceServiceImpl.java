@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -24,6 +24,7 @@ public class EcommerceServiceImpl implements EcommerceService{
     private RestTemplate restTemplate;
     private static final String GET_PRODUCTS_ENDPOINT_URL = "http://localhost:9090/api/v1/products/{shopperId}";
     
+    @Cacheable(value = "products", key = "#shopperId")
     public List<ProductResponse> getProductsByShopperId(String shopperId, String category, String brand, int limit) throws Exception {
         Map<String, String> uriParam = new HashMap<>();
         uriParam.put("shopperId", shopperId);
